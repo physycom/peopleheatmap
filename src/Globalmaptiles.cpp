@@ -434,7 +434,7 @@ void cam_timtiles() {
 int Ifile = 0;
 void import_data(string file_name, map<string, int> &time_name) {
   ifstream input(file_name);
-  if (!input) cout << "ERROR: unable to read input file " << endl;
+  if (!input) cout << "ERROR: unable to read input file : " << file_name << endl;
   string day;
   day = file_name.substr(file_name.size() - 10, 6);
   string linea;
@@ -471,7 +471,7 @@ void import_data(string file_name, map<string, int> &time_name) {
 //-------------------------------------------------------------------------------------
 void crea_allineatim(string file_name) {
   ifstream input(file_name);
-  if (!input) cout << "ERROR: unable to read input file " << endl;
+  if (!input) cout << "ERROR: unable to read input file : " << file_name << endl;
   string linea;
   vector<string> strs;
   map<int, int> TiletoTim_x;
@@ -506,7 +506,7 @@ void crea_allineatim(string file_name) {
   }
   cout << "Ci sono: " << cnt_i - 1 << " tile x" << endl;
   cout << "Ci sono: " << cnt_j - 1 << " tile y" << endl;
-  ofstream outp("../input/DATI/olivetti/maptiletim.csv");
+  ofstream outp("../venice_fs/heatmap/input/DATI/olivetti/maptiletim.csv");
   for (auto i : TiletoTim_x) {
     for (auto j : TiletoTim_y) {
       outp << i.first << "\t" << j.first << "\t" << i.second << "\t" << j.second << endl;
@@ -518,7 +518,7 @@ void crea_allineatim(string file_name) {
 //-------------------------------------------------------------------------------------
 void leggi_allineatim(string file_name) {
   ifstream input(file_name);
-  if (!input) cout << "ERROR: unable to read input file " << endl;
+  if (!input) cout << "ERROR: unable to read input file : " << file_name << endl;
   string linea;
   vector<string> strs;
   while (input) {
@@ -536,7 +536,7 @@ void leggi_allineatim(string file_name) {
 //-------------------------------------------------------------------------------------
 void import_data_tim(string file_name, map<string, int> &time_name) {
   ifstream input(file_name);
-  if (!input) cout << "ERROR: unable to read input file " << endl;
+  if (!input) cout << "ERROR: unable to read input file : " << file_name << endl;
   string day;
   day = file_name.substr(file_name.size() - 10, 6);
   string linea;
@@ -614,7 +614,7 @@ void print_total_file() {
 //-------------------------------------------------------------------------------------
 void import_all_data() {
   for (int i = 180514; i != 180515; ++i) {
-    string file_name = "../input/DATI/olivetti/" + to_string(i) + ".csv";
+    string file_name = "../venice_fs/heatmap/input/DATI/olivetti/" + to_string(i) + ".csv";
     import_data_tim(file_name, time15_name);
   }
 }
@@ -655,7 +655,7 @@ void import_file() {
 void make_grid_map() {
   bound_maptile_telecom(ZOOM_LEVEL, LAT_MIN, LAT_MAX, LON_MIN, LON_MAX);
   poly_connection_tim();
-  leggi_allineatim("../input/DATI/olivetti/maptiletim.csv");
+  leggi_allineatim("../venice_fs/heatmap/input/DATI/olivetti/maptiletim.csv");
   cam_timtiles();
   import_file();
   //import_alldata();
@@ -667,7 +667,7 @@ void save_grid_heatmap(const string &imgname) {
   int r, c, cnt;
   auto col = Scalar(0, 0, 0);
   int scala = 40;
-  Mat image = imread("../input/roi_standard.png", CV_LOAD_IMAGE_COLOR);
+  Mat image = imread("../venice_fs/heatmap/input/roi_standard.png", CV_LOAD_IMAGE_COLOR);
   //int wext = 1920;
   //int hext = 1080;
   //Mat image(Size(wext, hext), CV_8UC4, Scalar(255, 255, 255, 255));

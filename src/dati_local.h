@@ -28,5 +28,5 @@ using namespace std;
 
 #define SMALL_FONT_SIZE 14
 
-#define POLY_DIR    "../input/CART/"
+#define POLY_DIR    "../venice_fs/heatmap/input/CART/"
 #define ZOOM_LEVEL 18
