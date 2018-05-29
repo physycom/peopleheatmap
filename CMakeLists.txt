@@ -10,6 +10,14 @@ else()
    message(STATUS "Unable to find physycom settings file")
 endif()
 
+if(OVERRIDE_FLTK_INSTALL_DIR)
+  set(FLTK_DIR $ENV{FLTK_DIR})
+  set(FLTK_INCLUDE_DIR $ENV{FLTK_INCLUDE_DIR})
+  set(FLTK_BIN_DIR $ENV{FLTK_BIN_DIR})
+  set(FLTK_LIBRARY_SEARCH_PATH $ENV{FLTK_LIBRARY_SEARCH_PATH})
+  set(FLTK_LIBRARY_DIR $ENV{FLTK_LIBRARY_DIR})
+endif()
+
 if(UNIX AND NOT APPLE)
   find_package(LibRt REQUIRED)
 endif()
@@ -24,7 +32,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR APPLE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 endif()
 
-include_directories(${CMAKE_SOURCE_DIR}/src/ ${OpenCV_INCLUDE_DIRS})
+include_directories(${CMAKE_SOURCE_DIR}/src/ ${OpenCV_INCLUDE_DIRS} ${FLTK_INCLUDE_DIR})
 link_directories(${FLTK_LIBRARY_DIR})
 
 add_executable(heatmapper           "${CMAKE_SOURCE_DIR}/src/GLtrans.cpp"
