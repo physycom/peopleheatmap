@@ -44,7 +44,6 @@ output/
 *.idb
 *.ilk
 *.vcxproj.user
-*.txt
 *.xlsx
 *.csv
 *.suo
