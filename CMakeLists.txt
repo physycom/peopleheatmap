@@ -3,6 +3,13 @@ cmake_minimum_required (VERSION 3.1)
 project(venice)
 set(CMAKE_CXX_STANDARD 11)
 
+if(EXISTS "$ENV{WORKSPACE}/sysconfig/cmake/physycom_config.cmake")
+   message(STATUS "Enabling physycom settings")
+   include("$ENV{WORKSPACE}/sysconfig/cmake/physycom_config.cmake")
+else()
+   message(STATUS "Unable to find physycom settings file")
+endif()
+
 if(UNIX AND NOT APPLE)
   find_package(LibRt REQUIRED)
 endif()
@@ -17,7 +24,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR APPLE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 endif()
 
-include_directories(${INCLUDE_DIR} ${CMAKE_SOURCE_DIR}/src/)
+include_directories(${CMAKE_SOURCE_DIR}/src/ ${OpenCV_INCLUDE_DIRS})
 link_directories(${FLTK_LIBRARY_DIR})
 
 add_executable(heatmapper           "${CMAKE_SOURCE_DIR}/src/GLtrans.cpp"

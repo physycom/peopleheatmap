@@ -41,9 +41,11 @@ int main(int argc, char **argv) {
   CreaNodi();
   CreaMappa();
   make_grid_map();
-  save_grid_heatmap("test.png");
-  if (enable_fltk)
-  {
+
+  string basename = File.substr(0,File.find_last_of("."));
+  save_grid_heatmap(basename + ".png");
+
+  if (enable_fltk){
     CreateMyWindow();
     Fl::add_idle(idle_cb, 0);
     Fl::run();

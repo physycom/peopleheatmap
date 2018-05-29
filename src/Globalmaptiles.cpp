@@ -3,9 +3,9 @@
 #include <string>
 #include <boost/algorithm/string.hpp>
 
-#include <opencv2/core.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
 #include "Globalmaptiles.h"
 #include "polyline.h"
@@ -667,14 +667,18 @@ void save_grid_heatmap(const string &imgname) {
   int r, c, cnt;
   auto col = Scalar(0, 0, 0);
   int scala = 40;
-  Mat image = imread("../venice_fs/heatmap/input/roi_standard.png", CV_LOAD_IMAGE_COLOR);
-  //int wext = 1920;
-  //int hext = 1080;
-  //Mat image(Size(wext, hext), CV_8UC4, Scalar(255, 255, 255, 255));
+  string roi_image = "../venice_fs/heatmap/input/roi_standard.PNG";
+  Mat image = imread(roi_image, CV_LOAD_IMAGE_COLOR);
+  if(! image.data ){
+    cerr << "Error in loading image : " << roi_image << endl ;
+    exit(22);
+  }
+
   int wext = image.cols;
   int hext = image.rows;
   int dw = wext / (Ncols+1);
   int dh = hext / (Nrows+1);
+  cout << "Image size " << wext << "x" << hext << " - Grid size " << Ncols+1 << "x" << Nrows+1 << " - Cell size " << dw << "x" << dh << endl;
   resize(image, image, Size((Ncols + 1)*dw, (Nrows + 1)*dh), 0, 0, CV_INTER_LINEAR);
   double alpha = 0.3;
   for (const auto &p : maptile_tim) {
@@ -686,13 +690,14 @@ void save_grid_heatmap(const string &imgname) {
     else if (cnt < scala)     col = Scalar(205, 205, 255);
     else if (cnt < 3 * scala) col = Scalar(180, 180, 255);
     else if (cnt < 5 * scala) col = Scalar(130, 130, 255);
-    else if (cnt < 7 * scala) col = Scalar(80, 80, 255);
-    else                      col = Scalar(30, 30, 255);
+    else if (cnt < 7 * scala) col = Scalar( 80,  80, 255);
+    else                      col = Scalar( 30,  30, 255);
 
     Mat roi = image(Rect(c*dw, r*dh, dw, dh));
     Mat color(roi.size(), CV_8UC3, col);
     addWeighted(color, alpha, roi, 1.0 - alpha, 0.0, roi);
   }
-  imwrite("test.png", image);
+
+  imwrite(imgname, image);
 }
 
