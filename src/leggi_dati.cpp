@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <common.h>
 #include "polyline.h"
 #include "leggi_dati.h"
 #include <boost/algorithm/string.hpp>
@@ -76,11 +76,11 @@ void LeggiPoly(string city) {
 	for (int i = 1; i<n_poly; i++)	polyline[i].CalcolaLength();
 
 #if !defined JULY_15 && !defined JULY_16
-  polyline.erase(polyline.begin() + poly_cid2lid[9243649]); 
+  polyline.erase(polyline.begin() + poly_cid2lid[9243649]);
   --n_poly;
 #endif // !defined (JULY_15) || !defined(JULY_16)
 
-	//fflush(stdout); exit(4); 
+	//fflush(stdout); exit(4);
 }
 //------------------------------------------------------------------------------------------------------
 void StampaPoly(string city) {

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <common.h>
 #include <FL/Fl.H>
 #include <FL/gl.h>
 #include <FL/glu.h>
@@ -52,7 +52,7 @@ void Frame::draw() {
 //-------------------------------------------------------------------------------------------------
 int Frame::handle(int evento)
 {
-  int i_mouse, j_mouse, ierr;  //static int i_poly=-1; 
+  int i_mouse, j_mouse, ierr;  //static int i_poly=-1;
   float iz;
 
   static char messaggio[300];
@@ -99,7 +99,7 @@ int Frame::handle(int evento)
   default:
     break;
   }
-  //  redraw();  
+  //  redraw();
   return 1;
 }
 

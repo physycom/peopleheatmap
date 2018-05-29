@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <common.h>
 #include "dati_local.h"
 #include "polyline.h"
 
@@ -32,7 +32,6 @@ void Segmento::set(int id_poly, double s0, PointXY a, PointXY b) {
     cout << fixed << setprecision(6);
     cout << a.lat << "   " << a.lon << endl;
     cout << b.lat << "   " << b.lon << endl;
-    PAU;
   }
 }
 //----------------------------------------------------------------------------------------

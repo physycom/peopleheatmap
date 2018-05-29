@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <common.h>
 #include "polyline.h"
 #include "nodo.h"
 #include "mappa.h"
@@ -15,7 +15,7 @@ struct Elenco { vector <int> nodo_id,segmento_id,traj_end,traj_start; };
 //----------------------------------------------------------------------------
 
 Elenco **A; int jmax,imax; // A[jmax][imax]
-double ds_lat, ds_lon, c_ris1, c_ris2; 
+double ds_lat, ds_lon, c_ris1, c_ris2;
 
 //------------------------------------------------------------------------------------------------------
 int A_put_nodo(int n)
@@ -71,7 +71,7 @@ void CreaSegmenti() {
 	for (int i = 1; i<int(polyline.size()); i++) {
 	    s0= 0.0;
 		for (int k = 0; k<int(polyline[i].points.size())-1; k++) {
-			sw.set(i, s0, polyline[i].points[k], polyline[i].points[k + 1]); 
+			sw.set(i, s0, polyline[i].points[k], polyline[i].points[k + 1]);
 			segmento.push_back(sw);
 			s0+=sw.length;
 		}
@@ -132,7 +132,7 @@ bool CercaNodiVicini(double lon, double lat, list <NodoVicino> &nodoVicino) {
 //----------------------------------------------------------------------------------------------------
 bool CercaNodoVicino(double lon, double lat, double &distanza, int &id_nodo) {
 	distanza= 1.0e8; id_nodo= 0;
-	list <NodoVicino> nodoVicino; 
+	list <NodoVicino> nodoVicino;
 	int i = int((lon - LON_MIN) / ds_lon); int j = int((lat - LAT_MIN) / ds_lat);
 	int n_vicini = int(A[j][i].nodo_id.size()); if (n_vicini == 0) return false;
 	for (auto n : A[j][i].nodo_id) {

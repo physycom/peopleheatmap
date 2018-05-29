@@ -1,10 +1,9 @@
-#include "stdafx.h"
+#include <common.h>
 #include <FL/Fl.H>
 #include "leggi_dati.h"
 #include "metodi.h"
 #include "form.h"
 #include "frame.h"
-#include "ale/subnet_gra.h"
 #include "mappa.h"
 #include "Globalmaptiles.h"
 
@@ -41,7 +40,6 @@ int main(int argc, char **argv) {
   LeggiPoly("Venezia_SM");
   CreaNodi();
   CreaMappa();
-  ImportaSubnet("../output/subnet.txt");
   make_grid_map();
   save_grid_heatmap("test.png");
   if (enable_fltk)

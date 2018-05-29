@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stdafx.h"
+#include <common.h>
 #include "polyline.h"
 
 //enum Caso{ A, V, T};

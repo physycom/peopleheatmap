@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <common.h>
 #include <cmath>
 #include <string>
 #include <boost/algorithm/string.hpp>
@@ -340,23 +340,7 @@ void poly_connection_tim() {
         grid_map[make_pair(i, j)].first_conn_cells.push_back(make_pair(i + 1, j));
     }
   }
-
-
 }
-//------------------------------------------------------------------------------------------------
-void subnet_connection() {
-  for (auto i : subnets["tutto_10"]) {
-    for (auto &j : grid_map)
-      for (auto &l : j.second.poly_in) {
-        if (l == i && !j.second.best)  j.second.best = true;
-      }
-  }
-  int count = 0;
-  for (auto i : grid_map) {
-    if (i.second.best) count++;
-  }
-}
-
 //------------------------------------------------------------------------------------------------
 vector<string> name_cam;
 void cam_tiles() {
@@ -366,7 +350,7 @@ void cam_tiles() {
     make_pair(45.438229, 12.335624), //Delvin
     make_pair(45.433178, 12.330780), //Spezier
     make_pair(45.438962, 12.337114), //Grisostomo
-    make_pair(45.441388, 12.323173), //Stazione (Aggiunta) 
+    make_pair(45.441388, 12.323173), //Stazione (Aggiunta)
     make_pair(45.443421,12.331347), //StradaNuova
     make_pair(45.434650, 12.336776) //San Marco
   };
@@ -403,7 +387,7 @@ void cam_timtiles() {
     make_pair(45.438229, 12.335624), //Delvin
     make_pair(45.433178, 12.330780), //Spezier
     make_pair(45.438962, 12.337114), //Grisostomo
-    make_pair(45.441388, 12.323173), //Stazione (Aggiunta) 
+    make_pair(45.441388, 12.323173), //Stazione (Aggiunta)
     make_pair(45.443421,12.331347), //StradaNuova (Aggiunta)
     make_pair(45.434650, 12.336776) //San Marco
   };
@@ -469,12 +453,16 @@ void import_data(string file_name, map<string, int> &time_name) {
     boost::split(strs, linea, boost::is_any_of(","));
     if (strs.size() > 1) {
       pair<int, int> tile = make_pair(stoi(strs[0]), stoi(strs[1]));
-      if (tile.first<mercator.tmax_x && tile.first>mercator.tmin_x && tile.second<mercator.tmax_y && tile.second>mercator.tmin_y)
-        for (int i = 2; i < strs.size(); ++i)
-          if (strs[i] == "")
+      if (tile.first<mercator.tmax_x && tile.first>mercator.tmin_x && tile.second<mercator.tmax_y && tile.second>mercator.tmin_y){
+        for (int i = 2; i < strs.size(); ++i){
+          if (strs[i] == "") {
             grid_map[tile].count_vec.push_back(0);
-          else
+          }
+          else {
             grid_map[tile].count_vec.push_back(stoi(strs[i]));
+          }
+        }
+      }
     }
   }
   input.close();
@@ -569,12 +557,16 @@ void import_data_tim(string file_name, map<string, int> &time_name) {
     boost::split(strs, linea, boost::is_any_of(","));
     if (strs.size() > 1) {
       pair<int, int> tile = make_pair(stoi(strs[0]), stoi(strs[1]));
-      if (tile.first <= mercator.tmax_x && tile.first >= mercator.tmin_x && tile.second <= mercator.tmax_y && tile.second >= mercator.tmin_y)
-        for (int i = 2; i < strs.size(); ++i)
-          if (strs[i] == "")
+      if (tile.first <= mercator.tmax_x && tile.first >= mercator.tmin_x && tile.second <= mercator.tmax_y && tile.second >= mercator.tmin_y) {
+        for (int i = 2; i < strs.size(); ++i) {
+          if (strs[i] == "") {
             grid_map[maptile_tim[tile]].count_vec.push_back(0);
-          else
+          }
+          else {
             grid_map[maptile_tim[tile]].count_vec.push_back(stoi(strs[i]));
+          }
+        }
+      }
     }
   }
   input.close();
@@ -645,11 +637,14 @@ void import_file() {
     boost::split(strs, linea, boost::is_any_of(","));
     if (strs.size() > 1) {
       pair<int, int> tile = make_pair(stoi(strs[0]), stoi(strs[1]));
-      if (tile.first <= mercator.tmax_x && tile.first >= mercator.tmin_x && tile.second <= mercator.tmax_y && tile.second >= mercator.tmin_y)
-        if (strs[2] == "")
+      if (tile.first <= mercator.tmax_x && tile.first >= mercator.tmin_x && tile.second <= mercator.tmax_y && tile.second >= mercator.tmin_y) {
+        if (strs[2] == "") {
           grid_map[maptile_tim[tile]].count_vec.push_back(0);
-        else
+        }
+        else {
           grid_map[maptile_tim[tile]].count_vec.push_back(stoi(strs[2]));
+        }
+      }
     }
   }
   input.close();

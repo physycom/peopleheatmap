@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stdafx.h"
+#include <common.h>
 #include <set>
 
 //GlobalMercator (based on EPSG:900913 = EPSG:3785)
@@ -48,7 +48,7 @@ void subnet_connection();
 
 void cam_tiles();
 void cam_timtiles();
-void import_data(string file_name, map<string, int> &time_name); 
+void import_data(string file_name, map<string, int> &time_name);
 void crea_allineatim(string file_name);
 void leggi_allineatim(string file_name);
 void import_data_tim(string file_name, map<string, int> &time_name);

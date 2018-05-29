@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <common.h>
 
 #include <FL/Fl.H>
 #include <FL/gl.h>
@@ -9,7 +9,6 @@
 #include "draw.h"
 #include "mappa.h"
 #include "GLtrans.h"
-#include "ale/subnet_gra.h"
 #include "Globalmaptiles.h"
 
 #define QUADRATO  1
@@ -213,7 +212,6 @@ void draw_scene() {
   if (mostraPoly) draw_poly_evidenziata();
   if (mostraGrid) draw_cella_evidenziata();
   if (mostraGrid) draw_grid();
-  if (mostraSubnet) draw_subnet();
   glPopMatrix();
   glPopMatrix();
 }

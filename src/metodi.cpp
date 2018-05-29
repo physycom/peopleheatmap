@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <common.h>
 #include "polyline.h"
 #include "nodo.h"
 #include "metodi.h"

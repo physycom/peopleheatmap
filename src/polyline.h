@@ -1,10 +1,10 @@
 #pragma once
-#include "stdafx.h"
+#include <common.h>
 #include "dati_local.h"
 
 using namespace std;
 
-//----------------------------------------------------------------------------  
+//----------------------------------------------------------------------------
 struct PointXY {
   double lon, lat;
   void set(double lon_, double lat_);
@@ -24,7 +24,7 @@ struct Fl2D {
   double FT, TF;
   Fl2D();
 };
-//----------------------------------------------------------------------------  
+//----------------------------------------------------------------------------
 struct PolyLine {
   string           name;
   double           length, weightFT, weightTF;
@@ -54,15 +54,15 @@ struct PolyLine {
   void stampa_pro(FILE *fp);
   void stampa_pnt(FILE *fp);
 };
-//----------------------------------------------------------------------------  
+//----------------------------------------------------------------------------
 struct PolyPro {
   int              id, oneway, n_car_TF, n_car_FT;
   long long int    cid;
   float            length, vmed_TF, vmed_FT, flow_TF, flow_FT, v85_TF, v85_FT;
 };
-//----------------------------------------------------------------------------  
+//----------------------------------------------------------------------------
 struct PolyPnt {
-  int              id, nPoints; //ilat,ilon; 
+  int              id, nPoints; //ilat,ilon;
   long long int    cid;
 };
-//----------------------------------------------------------------------------  
+//----------------------------------------------------------------------------

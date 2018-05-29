@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <common.h>
 #include "nodo.h"
 
 //---------------------------------- Nodo ----------------------------
@@ -24,13 +24,13 @@ void Nodo::remove_link(void) {
 }
 //--------------------------------------------------------------------
 int  Nodo::n_link(void) { return int(id_link.size()); }
-//----------------------------------------------------------------------------  
+//----------------------------------------------------------------------------
 void Nodo::stampa(FILE *fp1) {
   fprintf(fp1, "%15lld\t%d\t%d\n", cid_nodo, id_nodo, n_link());
   for (int i = 0; i < n_link(); i++)
     fprintf(fp1, "%d\t%d\n", id_link[i], id_nodo_vicino[i]);
 }
-//----------------------------------------------------------------------------  
+//----------------------------------------------------------------------------
 double Nodo::distanza(double lon, double lat) {
   double dx = DSLON*(this->lon - lon);
   double dy = DSLAT*(this->lat - lat);
@@ -38,6 +38,6 @@ double Nodo::distanza(double lon, double lat) {
   if (ds2 > 0) return sqrt(ds2);
   else          return 0.0;
 }
-//----------------------------------------------------------------------------  
+//----------------------------------------------------------------------------
 bool CompNodoVicino(const NodoVicino& a, const NodoVicino& b) { return (a.distanza < b.distanza); }
-//----------------------------------------------------------------------------  
+//----------------------------------------------------------------------------
