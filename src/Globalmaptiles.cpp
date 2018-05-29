@@ -667,7 +667,9 @@ void save_grid_heatmap(const string &imgname) {
   int r, c, cnt;
   auto col = Scalar(0, 0, 0);
   int scala = 40;
-  string roi_image = "../venice_fs/heatmap/input/roi_standard.PNG";
+  //string roi_image = "../venice_fs/heatmap/input/roi_minimal.PNG";
+  //string roi_image = "../venice_fs/heatmap/input/roi_standard.PNG";
+  string roi_image = "../venice_fs/heatmap/input/roi_osm.PNG";
   Mat image = imread(roi_image, CV_LOAD_IMAGE_COLOR);
   if(! image.data ){
     cerr << "Error in loading image : " << roi_image << endl ;
