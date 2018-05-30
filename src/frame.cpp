@@ -68,7 +68,7 @@ int Frame::handle(int evento)
     break;
   case FL_PUSH:
     reDraw = true;
-    i_mouse = Fl::event_x(); j_mouse = screen_h - Fl::event_y();
+    i_mouse = Fl::event_x(); j_mouse = screen_h - Fl::event_y(); iz = 0.;
     ierr = UnProject(GLdouble(i_mouse), GLdouble(j_mouse), GLdouble(iz), &x_mouse, &y_mouse, &z_mouse);
 
     if (Fl::event_button() == 3) {     //  1 il sinistro  2 entrambi 3 il destro

@@ -621,7 +621,7 @@ void import_all_data() {
 //-------------------------------------------------------------------------------------
 void import_file() {
   ifstream input(File);
-  if (!input) cout << "ERROR: unable to read input file " << endl;
+  if (!input) cout << "ERROR: unable to read input file : " << File << endl;
   string day;
   day = File.substr(File.size() - 10, 6);
   string linea;
@@ -682,18 +682,19 @@ void save_grid_heatmap(const string &imgname) {
   int dh = hext / (Nrows+1);
   cout << "Image size " << wext << "x" << hext << " - Grid size " << Ncols+1 << "x" << Nrows+1 << " - Cell size " << dw << "x" << dh << endl;
   resize(image, image, Size((Ncols + 1)*dw, (Nrows + 1)*dh), 0, 0, CV_INTER_LINEAR);
-  double alpha = 0.3;
+  double alpha0 = 0.5, alpha;
+  //double alpha = 0.7; // strong contrast
   for (const auto &p : maptile_tim) {
     r = p.second.second;
     c = p.second.first;
     cnt = (grid_map[p.second].count_vec.size()) ? grid_map[p.second].count_vec.front() : 0;
 
-    if (cnt < 6)              col = Scalar(230, 230, 255);
-    else if (cnt < scala)     col = Scalar(205, 205, 255);
-    else if (cnt < 3 * scala) col = Scalar(180, 180, 255);
-    else if (cnt < 5 * scala) col = Scalar(130, 130, 255);
-    else if (cnt < 7 * scala) col = Scalar( 80,  80, 255);
-    else                      col = Scalar( 30,  30, 255);
+    if (cnt < 6)              { col = Scalar(230, 230, 255); alpha = 0.; }
+    else if (cnt < scala)     { col = Scalar(205, 205, 255); alpha = alpha0; }
+    else if (cnt < 3 * scala) { col = Scalar(180, 180, 255); alpha = alpha0; }
+    else if (cnt < 5 * scala) { col = Scalar(130, 130, 255); alpha = alpha0; }
+    else if (cnt < 7 * scala) { col = Scalar( 80,  80, 255); alpha = alpha0; }
+    else                      { col = Scalar( 30,  30, 255); alpha = alpha0; }
 
     Mat roi = image(Rect(c*dw, r*dh, dw, dh));
     Mat color(roi.size(), CV_8UC3, col);
