@@ -724,6 +724,7 @@ Scalar palette(const int &i) {  // fashion
   case 2: return Scalar(130, 130, 255);
   case 3: return Scalar( 80,  80, 255);
   case 4: return Scalar( 10,  10, 255);
+  default: return Scalar(0, 0, 0);
   }
 }
 
