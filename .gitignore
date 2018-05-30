@@ -63,3 +63,7 @@ cm/cmake/*
 
 heatmapper
 bin/
+data_tim_o/
+data_tim_f/
+images_tim_o/
+images_tim_f/
