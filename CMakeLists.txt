@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.1)
 #do not lower cmake due to Threads requirements!
-project(venice)
+project(peopleheatmap)
 set(CMAKE_CXX_STANDARD 11)
 
 if(EXISTS "$ENV{WORKSPACE}/sysconfig/cmake/physycom_config.cmake")
@@ -11,11 +11,11 @@ else()
 endif()
 
 if(OVERRIDE_FLTK_INSTALL_DIR)
-  set(FLTK_DIR $ENV{FLTK_DIR})
-  set(FLTK_INCLUDE_DIR $ENV{FLTK_INCLUDE_DIR})
-  set(FLTK_BIN_DIR $ENV{FLTK_BIN_DIR})
+  set(FLTK_DIR                 $ENV{FLTK_DIR})
+  set(FLTK_INCLUDE_DIR         $ENV{FLTK_INCLUDE_DIR})
+  set(FLTK_BIN_DIR             $ENV{FLTK_BIN_DIR})
   set(FLTK_LIBRARY_SEARCH_PATH $ENV{FLTK_LIBRARY_SEARCH_PATH})
-  set(FLTK_LIBRARY_DIR $ENV{FLTK_LIBRARY_DIR})
+  set(FLTK_LIBRARY_DIR         $ENV{FLTK_LIBRARY_DIR})
 endif()
 
 if(UNIX AND NOT APPLE)
