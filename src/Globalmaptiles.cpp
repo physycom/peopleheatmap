@@ -453,8 +453,8 @@ void import_data(string file_name, map<string, int> &time_name) {
     boost::split(strs, linea, boost::is_any_of(","));
     if (strs.size() > 1) {
       pair<int, int> tile = make_pair(stoi(strs[0]), stoi(strs[1]));
-      if (tile.first<mercator.tmax_x && tile.first>mercator.tmin_x && tile.second<mercator.tmax_y && tile.second>mercator.tmin_y){
-        for (int i = 2; i < strs.size(); ++i){
+      if (tile.first<mercator.tmax_x && tile.first>mercator.tmin_x && tile.second<mercator.tmax_y && tile.second>mercator.tmin_y) {
+        for (int i = 2; i < strs.size(); ++i) {
           if (strs[i] == "") {
             grid_map[tile].count_vec.push_back(0);
           }
@@ -537,8 +537,7 @@ void leggi_allineatim(string file_name) {
 void import_data_tim(string file_name, map<string, int> &time_name) {
   ifstream input(file_name);
   if (!input) cout << "ERROR: unable to read input file : " << file_name << endl;
-  string day;
-  day = file_name.substr(file_name.size() - 10, 6);
+  string day = file_name.substr(file_name.find_last_of("/"), 6);
   string linea;
   vector<string> strs;
   getline(input, linea); // salto una riga
@@ -622,13 +621,12 @@ void import_all_data() {
 void import_file() {
   ifstream input(File);
   if (!input) cout << "ERROR: unable to read input file : " << File << endl;
-  string day;
-  day = File.substr(File.size() - 10, 6);
+  string day = File.substr(File.find_last_of("/") + 1, 6);
   string linea;
   vector<string> strs;
   getline(input, linea); // salto una riga
   boost::split(strs, linea, boost::is_any_of(","), boost::token_compress_off);
-  cout << "day: " << day << endl;
+  cout << "Selected day: " << day << endl;
 
   while (input) {
     linea.clear();
@@ -663,44 +661,70 @@ void make_grid_map() {
   //print_total_file();
 }
 //-------------------------------------------------------------------------------------
+Scalar palette(const int &i);
 void save_grid_heatmap(const string &imgname) {
   int r, c, cnt;
   auto col = Scalar(0, 0, 0);
-  int scala = 40;
   //string roi_image = "../peopleheatmap-vars/input/roi_minimal.PNG";
   //string roi_image = "../peopleheatmap-vars/input/roi_standard.PNG";
   string roi_image = "../peopleheatmap-vars/input/roi_osm.PNG";
   Mat image = imread(roi_image, CV_LOAD_IMAGE_COLOR);
-  if(! image.data ){
-    cerr << "Error in loading image : " << roi_image << endl ;
+  if (!image.data) {
+    cerr << "Error in loading image : " << roi_image << endl;
     exit(22);
   }
 
   int wext = image.cols;
   int hext = image.rows;
-  int dw = wext / (Ncols+1);
-  int dh = hext / (Nrows+1);
-  cout << "Image size " << wext << "x" << hext << " - Grid size " << Ncols+1 << "x" << Nrows+1 << " - Cell size " << dw << "x" << dh << endl;
+  int dw = wext / (Ncols + 1);
+  int dh = hext / (Nrows + 1);
+  cout << "Image size " << wext << "x" << hext << " - Grid size " << Ncols + 1 << "x" << Nrows + 1 << " - Cell size " << dw << "x" << dh << endl;
   resize(image, image, Size((Ncols + 1)*dw, (Nrows + 1)*dh), 0, 0, CV_INTER_LINEAR);
-  double alpha0 = 0.5, alpha;
-  //double alpha = 0.7; // strong contrast
+  wext = image.cols;
+  hext = image.rows;
+  double alpha0 = 0.65, alpha;
+  int scala = 30;
   for (const auto &p : maptile_tim) {
     r = p.second.second;
     c = p.second.first;
     cnt = (grid_map[p.second].count_vec.size()) ? grid_map[p.second].count_vec.front() : 0;
 
-    if (cnt < 6)              { col = Scalar(230, 230, 255); alpha = 0.; }
-    else if (cnt < scala)     { col = Scalar(205, 205, 255); alpha = alpha0; }
-    else if (cnt < 3 * scala) { col = Scalar(180, 180, 255); alpha = alpha0; }
-    else if (cnt < 5 * scala) { col = Scalar(130, 130, 255); alpha = alpha0; }
-    else if (cnt < 7 * scala) { col = Scalar( 80,  80, 255); alpha = alpha0; }
-    else                      { col = Scalar( 30,  30, 255); alpha = alpha0; }
+    if (cnt < 5)              { col = Scalar(0, 0, 0); alpha = 0.; }
+    else if (cnt < 1 * scala) { col = palette(0); alpha = alpha0; }
+    else if (cnt < 2 * scala) { col = palette(1); alpha = alpha0; }
+    else if (cnt < 4 * scala) { col = palette(2); alpha = alpha0; }
+    else if (cnt < 8 * scala) { col = palette(3); alpha = alpha0; }
+    else                      { col = palette(4); alpha = alpha0; }
 
     Mat roi = image(Rect(c*dw, r*dh, dw, dh));
     Mat color(roi.size(), CV_8UC3, col);
     addWeighted(color, alpha, roi, 1.0 - alpha, 0.0, roi);
   }
 
+  string label;
+  for (int i = 0; i < 5; ++i) {
+    switch (i) {
+    case 0: label = "< " + to_string(int(pow(2, i)*scala * 3)); break;
+    case 4: label = to_string(int(pow(2, i-1)*scala * 3)) + "+"; break;
+    default: label = to_string(int(pow(2, i-1)*scala * 3)) + "-" + to_string(int(pow(2, i)*scala * 3)); break;
+    }
+    putText(image, label, Point(0.005*wext + 1.1*dw, 0.995*hext - (4.5-i)*dh), FONT_HERSHEY_DUPLEX, 0.65, Scalar(0,0,0), 1, CV_AA);
+    Mat roi = image(Rect(0.005*wext, 0.99*hext - (5-i)*dh, dw, dh));
+    Mat color(roi.size(), CV_8UC3, palette(i));
+    addWeighted(color, alpha0, roi, 1.0 - alpha0, 0.0, roi);
+  }
+
   imwrite(imgname, image);
 }
+
+Scalar palette(const int &i) {  // fashion
+  switch (i % 5) {
+  case 0: return Scalar(205, 205, 255);
+  case 1: return Scalar(180, 180, 255);
+  case 2: return Scalar(130, 130, 255);
+  case 3: return Scalar( 80,  80, 255);
+  case 4: return Scalar( 10,  10, 255);
+  }
+}
+
 
