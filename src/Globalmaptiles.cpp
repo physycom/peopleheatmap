@@ -506,7 +506,7 @@ void crea_allineatim(string file_name) {
   }
   cout << "Ci sono: " << cnt_i - 1 << " tile x" << endl;
   cout << "Ci sono: " << cnt_j - 1 << " tile y" << endl;
-  ofstream outp("../venice_fs/heatmap/input/DATI/olivetti/maptiletim.csv");
+  ofstream outp("../peopleheatmap-vars/input/DATI/olivetti/maptiletim.csv");
   for (auto i : TiletoTim_x) {
     for (auto j : TiletoTim_y) {
       outp << i.first << "\t" << j.first << "\t" << i.second << "\t" << j.second << endl;
@@ -614,7 +614,7 @@ void print_total_file() {
 //-------------------------------------------------------------------------------------
 void import_all_data() {
   for (int i = 180514; i != 180515; ++i) {
-    string file_name = "../venice_fs/heatmap/input/DATI/olivetti/" + to_string(i) + ".csv";
+    string file_name = "../peopleheatmap-vars/input/DATI/olivetti/" + to_string(i) + ".csv";
     import_data_tim(file_name, time15_name);
   }
 }
@@ -655,7 +655,7 @@ void import_file() {
 void make_grid_map() {
   bound_maptile_telecom(ZOOM_LEVEL, LAT_MIN, LAT_MAX, LON_MIN, LON_MAX);
   poly_connection_tim();
-  leggi_allineatim("../venice_fs/heatmap/input/DATI/olivetti/maptiletim.csv");
+  leggi_allineatim("../peopleheatmap-vars/input/DATI/olivetti/maptiletim.csv");
   cam_timtiles();
   import_file();
   //import_alldata();
@@ -667,9 +667,9 @@ void save_grid_heatmap(const string &imgname) {
   int r, c, cnt;
   auto col = Scalar(0, 0, 0);
   int scala = 40;
-  //string roi_image = "../venice_fs/heatmap/input/roi_minimal.PNG";
-  //string roi_image = "../venice_fs/heatmap/input/roi_standard.PNG";
-  string roi_image = "../venice_fs/heatmap/input/roi_osm.PNG";
+  //string roi_image = "../peopleheatmap-vars/input/roi_minimal.PNG";
+  //string roi_image = "../peopleheatmap-vars/input/roi_standard.PNG";
+  string roi_image = "../peopleheatmap-vars/input/roi_osm.PNG";
   Mat image = imread(roi_image, CV_LOAD_IMAGE_COLOR);
   if(! image.data ){
     cerr << "Error in loading image : " << roi_image << endl ;
