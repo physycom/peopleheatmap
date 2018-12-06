@@ -47,5 +47,5 @@ add_executable(heatmapper           "${CMAKE_SOURCE_DIR}/src/GLtrans.cpp"
                                     "${CMAKE_SOURCE_DIR}/src/nodo.cpp"
                                     "${CMAKE_SOURCE_DIR}/src/polyline.cpp"
                                     )
-target_link_libraries(heatmapper    ${OPENGL_glu_LIBRARY} ${OPENGL_gl_LIBRARY} ${FLTK_LIBRARIES} Threads::Threads ${OpenCV_LIBRARIES})
+target_link_libraries(heatmapper    ${FLTK_LIBRARIES} ${OPENGL_LIBRARIES} Threads::Threads ${OpenCV_LIBRARIES})
 install(TARGETS heatmapper DESTINATION ${CMAKE_SOURCE_DIR})
