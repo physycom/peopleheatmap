@@ -702,11 +702,12 @@ void save_grid_heatmap(const string &imgname) {
   }
 
   string label;
+  int global_penetration = 3; 
   for (int i = 0; i < 5; ++i) {
     switch (i) {
-    case 0: label = "< " + to_string(int(pow(2, i)*scala * 3)); break;
-    case 4: label = to_string(int(pow(2, i-1)*scala * 3)) + "+"; break;
-    default: label = to_string(int(pow(2, i-1)*scala * 3)) + "-" + to_string(int(pow(2, i)*scala * 3)); break;
+    case 0: label = "< " + to_string(int(pow(2, i)*scala * global_penetration)); break;
+    case 4: label = to_string(int(pow(2, i-1)*scala * global_penetration)) + "+"; break;
+    default: label = to_string(int(pow(2, i-1)*scala * global_penetration)) + "-" + to_string(int(pow(2, i)*scala * global_penetration)); break;
     }
     putText(image, label, Point(0.005*wext + 1.1*dw, 0.995*hext - (4.5-i)*dh), FONT_HERSHEY_DUPLEX, 0.65, Scalar(0,0,0), 1, CV_AA);
     Mat roi = image(Rect(0.005*wext, 0.99*hext - (5-i)*dh, dw, dh));
