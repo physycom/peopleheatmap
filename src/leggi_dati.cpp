@@ -10,8 +10,8 @@ map <int, int> poly_cid2lid;
 //------------------------------------------------------------------------------------------------------
 void LeggiPoly(string city) {
 
-	string poly_pnt_file = POLY_DIR + city + "_strade_pnt.txt";
-	string poly_pro_file = POLY_DIR + city + "_strade_pro.txt";
+  string poly_pnt_file = POLY_DIR + city + "_strade_pnt.txt";
+  string poly_pro_file = POLY_DIR + city + "_strade_pro.txt";
 
 	FILE *fp0; fp0 = fopen(poly_pnt_file.c_str(), "r");
 	if (fp0 == NULL) { cout << "fopen error in " << poly_pnt_file << endl; exit(5); }
