@@ -20,6 +20,8 @@ extern vector <PolyLine> polyline;  extern int n_poly;
 extern vector <Nodo> nodo;          extern int n_nodi;
 extern map<pair<int, int>, MapTile> grid_map;
 extern map<string, int> time15_name;
+extern map<pair<int, int>, pair<int, int>> tim2std;
+extern map<pair<int, int>, pair<int, int>> maptile_tim;
 
 extern bool mostraPoly, mostraNodo, mostraGrid, reDraw;
 extern bool mostraSubnet;
@@ -35,6 +37,9 @@ extern int screen_width, screen_height;
 string name;
 extern int nodo_1, nodo_2;
 extern int w_est, h_est;
+
+// added to show time-correlated tiles
+extern map<pair<int, int>, pair<int, int>> corr_tiles;
 
 // subnet
 extern map<string, vector<int>> subnets;
@@ -143,7 +148,8 @@ void draw_grid() {
   int scala = 40;
   for (auto i : grid_map) {
     if (i.second.count_vec.size() != 0) {
-      if (i.second.count_vec[0] < 6) glColor3d(1.0, 0.9, 0.9);
+      if      (i.second.count_vec[0] <= 3) glColor3d(0.0, 0.0, 0.0);
+      else if (i.second.count_vec[0]<=6) glColor3d(1.0, 0.9, 0.9);
       else if (i.second.count_vec[0] < scala) glColor3d(1.0, 0.8, 0.8);
       else if (i.second.count_vec[0] < 3 * scala) glColor3d(1.0, 0.7, 0.7);
       else if (i.second.count_vec[0] < 5 * scala) glColor3d(1.0, 0.5, 0.5);
@@ -189,7 +195,10 @@ void draw_cella_evidenziata() {
   }
   glPopMatrix();
   glDisable(GL_DEPTH_TEST);
-  string s2 = to_string(cella_evidenziata.google_tile.first) + "   " + to_string(cella_evidenziata.google_tile.second);
+  //string s2 = to_string(cella_evidenziata.google_tile.first) + "   " + to_string(cella_evidenziata.google_tile.second);
+  int tile_x = tim2std[make_pair(cella_evidenziata.google_tile.first, cella_evidenziata.google_tile.second)].first;
+  int tile_y = tim2std[make_pair(cella_evidenziata.google_tile.first, cella_evidenziata.google_tile.second)].second;
+  string s2 = to_string(tile_x)+"  "+to_string(tile_y);
   linea2->value(s2.c_str());
   glEnable(GL_DEPTH_TEST);
 

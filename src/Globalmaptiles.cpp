@@ -16,6 +16,7 @@ map<pair<int, int>, MapTile> grid_map;
 GlobalMercator mercator;
 vector < vector<pair<int, int>>> tile_obs;
 map<pair<int, int>, pair<int, int>> maptile_tim;
+map<pair<int, int>, pair<int, int>> tim2std;
 map<string, int> time15_name;
 
 extern vector<PolyLine> polyline;
@@ -185,6 +186,8 @@ void bound_maptile_telecom(int zoom, double lat_min, double lat_max, double lon_
   mercator.tmin_y = int((pow(2, zoom) - 1) - tmax.second);
   mercator.tmax_x = tmax.first;
   mercator.tmax_y = int((pow(2, zoom) - 1) - tmin.second);
+  cout << "tile min: " << mercator.tmin_x << " " << mercator.tmin_y << endl;
+  cout << "tile max: " << mercator.tmax_x << " " << mercator.tmax_y << endl;
 
   int ty0 = tmin.second;
   int tx0 = tmin.first;
@@ -528,6 +531,7 @@ void leggi_allineatim(string file_name) {
     boost::split(strs, linea, boost::is_any_of("\t"));
     if (strs.size() > 1) {
       maptile_tim[make_pair(stoi(strs[0]), stoi(strs[1]))] = make_pair(stoi(strs[2]), stoi(strs[3]));
+      tim2std[make_pair(stoi(strs[2]), stoi(strs[3]))] = make_pair(stoi(strs[0]), stoi(strs[1]));
     }
   }
   input.close();
@@ -683,7 +687,7 @@ void save_grid_heatmap(const string &imgname) {
   wext = image.cols;
   hext = image.rows;
   double alpha0 = 0.65, alpha;
-  int scala = 30;
+  int scala = 40;
   for (const auto &p : maptile_tim) {
     r = p.second.second;
     c = p.second.first;

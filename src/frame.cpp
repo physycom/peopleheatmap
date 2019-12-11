@@ -63,7 +63,7 @@ int Frame::handle(int evento)
     reDraw = true;
     i_mouse = Fl::event_x();  j_mouse = screen_h - Fl::event_y(); iz = 0.;
     ierr = UnProject(GLdouble(i_mouse), GLdouble(j_mouse), GLdouble(iz), &x_mouse, &y_mouse, &z_mouse);
-    sprintf(messaggio, " %10.6lf %10.6lf ", y_mouse, x_mouse);
+    sprintf(messaggio, " %10.6lf %10.6lf", y_mouse, x_mouse);
     glDisable(GL_DEPTH_TEST); linea1->value(messaggio); glEnable(GL_DEPTH_TEST);
     break;
   case FL_PUSH:

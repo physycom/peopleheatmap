@@ -9,6 +9,14 @@ using namespace std;
 #define LON_MIN  12.296303
 #define LON_MAX  12.372170
 
+
+// ------------ Venezia Mestre -------------
+//#define LAT_MIN  45.46773
+//#define LAT_MAX  45.52043
+//#define LON_MIN  12.21059
+//#define LON_MAX  12.27720
+
+
 #define RISOLUZIONE_MAPPA    60  // in metri
 #define RISOLUZIONE_GRIGLIA 150  // in metri
 

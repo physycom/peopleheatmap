@@ -6,6 +6,7 @@
 
 vector <PolyLine> polyline; int n_poly = 0;
 map <int, int> poly_cid2lid;
+map<pair<int, int>, pair<int, int>> corr_tiles;
 
 //------------------------------------------------------------------------------------------------------
 void LeggiPoly(string city) {
@@ -99,5 +100,16 @@ void StampaPoly(string city) {
 	for (int i = 1; i < n_poly; i++) if (polyline[i].ok) polyline[i].stampa_pro(fp0);
 	fclose(fp0);
 
+}
+//------------------------------------------------------------------------------------------------------
+//temporarily added to show time correlated tiles
+void ReadCorrTiles(string path_file) {
+  FILE *fp0; fp0 = fopen(path_file.c_str(), "r");
+  if (fp0 == NULL) { cout << "fopen error in " << path_file << endl; exit(5); }
+  int tile_x, tile_y, tile_x_corr, tile_y_corr;
+  while (fscanf(fp0, " %d,%d,%d,%d", &tile_x, &tile_y, &tile_x_corr, &tile_y_corr) != EOF) {
+    corr_tiles[make_pair(tile_x, tile_y)] = make_pair(tile_x_corr, tile_y_corr);
+  }
+  cout << "size of corr_tiles: " << corr_tiles.size() << endl;
 }
 //------------------------------------------------------------------------------------------------------
