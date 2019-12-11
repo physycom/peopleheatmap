@@ -706,7 +706,7 @@ void save_grid_heatmap(const string &imgname) {
   }
 
   string label;
-  int global_penetration = 3; 
+  int global_penetration = 3;
   for (int i = 0; i < 5; ++i) {
     switch (i) {
     case 0: label = "< " + to_string(int(pow(2, i)*scala * global_penetration)); break;
@@ -732,5 +732,3 @@ Scalar palette(const int &i) {  // fashion
   default: return Scalar(0, 0, 0);
   }
 }
-
-
