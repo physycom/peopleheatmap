@@ -168,18 +168,20 @@ void bound_maptile(int zoom, double lat_min, double lat_max, double lon_min, dou
 //------------------------------------------------------------------------------------------------
 double LAT_min;
 double LON_min;
-double dlat_tim = 0.0012500001;
-double dlon_tim = 0.0016666668;
+
+double dlat_tim = 0.001250000000;
+double dlon_tim = 0.001666666666;
+
 int Nrows, Ncols;
 void bound_maptile_telecom(int zoom, double lat_min, double lat_max, double lon_min, double lon_max) {
   //map<pair<int, int>,MapTile> Grid_map;
   mercator.init();
   int tz = zoom;
   pair<double, double> m = mercator.LatLonToMeters(lat_min, lon_min);
-  //cout << fixed << setprecision(4) << "Spherical Mercator (ESPG:900913) coordinates for lat/lon: " << m.first << "\t" << m.second << endl;
+  //cout << "Spherical Mercator (ESPG:900913) coordinates for lat/lon: " << m.first << "\t" << m.second << endl;
   pair<int, int> tmin = mercator.MetersToTile(m.first, m.second, tz);
   m = mercator.LatLonToMeters(lat_max, lon_max);
-  //cout << fixed << setprecision(4) << "Spherical Mercator (ESPG:900913) cooridnate for maxlat/maxlon: " << m.first << "\t" << m.second << endl;
+  //cout << "Spherical Mercator (ESPG:900913) cooridnate for maxlat/maxlon: " << m.first << "\t" << m.second << endl;
   pair<int, int> tmax = mercator.MetersToTile(m.first, m.second, tz);
 
   mercator.tmin_x = tmin.first;
@@ -189,6 +191,8 @@ void bound_maptile_telecom(int zoom, double lat_min, double lat_max, double lon_
   cout << "tile min: " << mercator.tmin_x << " " << mercator.tmin_y << endl;
   cout << "tile max: " << mercator.tmax_x << " " << mercator.tmax_y << endl;
 
+  //double dslon = DSLAT * std::cos(LAT_MIN*PI_180);
+
   int ty0 = tmin.second;
   int tx0 = tmin.first;
   pair<pair<double, double>, pair<double, double>> wgsbounds0 = mercator.TileLatLonBounds(tx0, ty0, tz);
@@ -196,10 +200,11 @@ void bound_maptile_telecom(int zoom, double lat_min, double lat_max, double lon_
   mp0.lat_min = wgsbounds0.first.first;
   mp0.lon_min = wgsbounds0.first.second;
 
-  mp0.lat_max = wgsbounds0.first.first + 0.0012500001;
-  mp0.lon_max = wgsbounds0.first.second + 0.0016666668;
-  Nrows = int(((LAT_MAX - mp0.lat_min) / 0.0012500001));
-  Ncols = int(((LON_MAX - mp0.lon_min) / 0.0016666668));
+  mp0.lat_max = wgsbounds0.first.first + dlat_tim;
+  mp0.lon_max = wgsbounds0.first.second + dlon_tim;
+
+  Nrows = int(((LAT_MAX - mp0.lat_min) / dlat_tim));
+  Ncols = int(((LON_MAX - mp0.lon_min) / dlon_tim));
   cout << "Nrows " << Nrows << "  Ncols " << Ncols << endl;
   LAT_min = wgsbounds0.first.first;
   LON_min = wgsbounds0.first.second;
@@ -657,12 +662,26 @@ void import_file() {
 void make_grid_map() {
   bound_maptile_telecom(ZOOM_LEVEL, LAT_MIN, LAT_MAX, LON_MIN, LON_MAX);
   poly_connection_tim();
+  crea_allineatim("../peopleheatmap-vars/200320/200320_1200_P.csv");
   leggi_allineatim("../peopleheatmap-vars/input/DATI/olivetti/maptiletim.csv");
   cam_timtiles();
   import_file();
   //import_alldata();
   //print_obstile_file();
   //print_total_file();
+}
+//-------------------------------------------------------------------------------------
+void dump_grid_map() {
+  ofstream out_grid("maptile_latlon.csv");
+  out_grid << "X,Y,LatMin,LatMax,LonMin,LonMax" << std::endl;
+  for (const auto &i : maptile_tim) {
+    double lat_max = grid_map[i.second].lat_max;
+    double lat_min = grid_map[i.second].lat_min;
+    double lon_max = grid_map[i.second].lon_max;
+    double lon_min = grid_map[i.second].lon_min;
+    out_grid << fixed << setprecision(6) << i.first.first << "," << i.first.second 
+      <<","<<lat_min<<","<<lat_max<<","<<lon_min<<","<<lon_max << std::endl;
+  }
 }
 //-------------------------------------------------------------------------------------
 Scalar palette(const int &i);

@@ -38,6 +38,7 @@ struct MapTile {
 };
 
 void make_grid_map();
+void dump_grid_map();
 void bound_maptile(int zoom, double lat_min, double lat_max, double lon_min, double lon_max);
 void bound_maptile_telecom(int zoom, double lat_min, double lat_max, double lon_min, double lon_max);
 pair<int, int> LatLontoTile(double lat, double lon);

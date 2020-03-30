@@ -11,11 +11,21 @@ using namespace std;
 
 
 // ------------ Venezia Mestre -------------
-//#define LAT_MIN  45.46773
-//#define LAT_MAX  45.52043
-//#define LON_MIN  12.21059
-//#define LON_MAX  12.27720
+//#define LAT_MIN  45.4160477
+//#define LAT_MAX  45.5453146
+//#define LON_MIN  12.1823931
+//#define LON_MAX  12.4172259
 
+// ----------- Venezia Estesa --------------
+//#define LAT_MIN  45.0676300
+//#define LAT_MAX  45.8869100
+//#define LON_MIN  11.9303800
+//#define LON_MAX  13.0798100
+
+//#define LAT_MIN  45.2623
+//#define LAT_MAX  45.6086
+//#define LON_MIN  12.1632
+//#define LON_MAX  12.5932
 
 #define RISOLUZIONE_MAPPA    60  // in metri
 #define RISOLUZIONE_GRIGLIA 150  // in metri

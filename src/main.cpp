@@ -37,17 +37,20 @@ int main(int argc, char **argv) {
 
 
   Geometria();
-  LeggiPoly("Venezia_SM");
+  //LeggiPoly("Venezia_SM");
+  LeggiPoly("Mestre_20190502");
+  
   CreaNodi();
   CreaMappa();
   make_grid_map();
+  dump_grid_map();
 
   string basename = File.substr(0,File.find_last_of("."));
-  save_grid_heatmap(basename + ".png");
-
+  //save_grid_heatmap(basename + ".png");
+  
 
   if (enable_fltk){
-    ReadCorrTiles("../peopleheatmap-vars/crosscorr_tiles_1.csv");
+    //ReadCorrTiles("../peopleheatmap-vars/crosscorr_tiles_1.csv");
     CreateMyWindow();
     Fl::add_idle(idle_cb, 0);
     Fl::run();
